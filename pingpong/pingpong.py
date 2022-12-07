@@ -43,7 +43,7 @@ def angle_to_theta(angle):
 class myball(Circle):
     __VectorX = 3
     __VectorY = 5
-    friction_factor = 0.000
+    friction_factor = 0.005
 
     def go(self):
         super().move(self.__VectorX, self.__VectorY)
@@ -130,7 +130,7 @@ r = 30
 whiteBall.setVelocity(-6, -4)
 
 tanacgle = (np.arctan(1/6) * 360 / (2 * np.pi))
-t=0;
+t=0
 isOut= True
 
 while (whiteBall.get_speed() > 0):
