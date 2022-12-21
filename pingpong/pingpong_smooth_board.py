@@ -4,27 +4,31 @@ from cs1graphics import *
 from .vectors_math import *
 from .physics_engine import *
 
-delay = 0.05  # 초당 20번
 collision_factor = 0.7
 
 
-class MyBall(Circle):
-    VectorX = 0
-    VectorY = 0
+class Ball(Circle):
+    VectorX = 2
+    VectorY = 2
     friction_factor = 0.005
     xp = 0  # = whiteBall.getReferencePoint().getX()
     yp = 0  # = whiteBall.getReferencePoint().getY()
     radius = 10
+    delay = 0.1
 
     board = 2
 
     def __init__(self, radius, x, y, ):
-        super(MyBall, self).__init__(radius, Point(x, y))
+        super(Ball, self).__init__(radius, Point(x, y))
+        self.radius = radius
         self.setPosition(x, y)
+
+    def setDelay(self, delay):
+        self.delay = delay
 
     def start(self, tick):
         for i in range(tick):
-            whiteBall.going(1)
+            self.going(1)
 
     def setBoard(self, board):
         self.board = board
@@ -51,7 +55,7 @@ class MyBall(Circle):
                 # self.go(1 - firstTime)
 
         if canGo:
-            whiteBall.go(t)
+            self.go(t)
 
     def setPosition(self, x, y):
         self.xp = x
@@ -62,9 +66,9 @@ class MyBall(Circle):
         self.yp += self.VectorY * t
         super().move(self.VectorX * t, self.VectorY * t)
         # self.friction()
-        time.sleep(delay * t)
+        time.sleep(self.delay * t)
 
-    def setVelocity(self, speed_x, speed_y):
+    def setSpeed(self, speed_x, speed_y):
         self.VectorX = speed_x
         self.VectorY = speed_y
 
@@ -100,7 +104,7 @@ class MyBall(Circle):
         Reflection = sum_tuple(vector, double_projection)
         # print(Reflection)
 
-        self.setVelocity(Reflection[0], Reflection[1])
+        self.setSpeed(Reflection[0], Reflection[1])
 
 
 # def get_location(angle):
@@ -115,26 +119,27 @@ class PingPong:
     canvas = 0
     board = 0
     ball = 0
+    delay = 1
 
     def __init__(self, width, height, thick):
         self.width = width
         self.height = height
-        self.canvas = Canvas(400, 600)
+        self.canvas = Canvas(width, height)
         self.canvas.setBackgroundColor((48, 108, 227))
 
-        self.setTable(thick, 600, thick / 2, 300)
-        self.setTable(40, 600, 400, 300)
-        self.setTable(400, 40, 200, 0)
-        self.setTable(400, 40, 200, 600)
+        self.setTable(thick * 2, height, 0, height / 2)
+        self.setTable(thick * 2, height, width, height / 2)
+        self.setTable(width, thick * 2, width / 2, 0)
+        self.setTable(width, thick * 2, width / 2, height)
 
-        self.board = Board(400, 600, 20)
+        self.board = Board(width, height, thick)
 
     def setBall(self, ball):
         self.ball = ball
         self.ball.setBoard(self.board)
         self.ball.setFillColor('white')
         self.ball.setBorderWidth(0)
-        self.canvas.add(whiteBall)
+        self.canvas.add(ball)
 
     def setTable(self, x, y, X, Y):
         table = Rectangle(x, y, Point(X, Y))
@@ -143,21 +148,25 @@ class PingPong:
         self.canvas.add(table)
 
     def start(self, time):
-        whiteBall.start(time)
+        self.ball.setDelay(self.delay)
+        self.ball.start(time)
+
+    def setDelay(self, delay):
+        self.delay = delay
 
     def finish(self):
         self.canvas.wait()
         self.canvas.close()
 
-
-pingPong = PingPong(400, 600, 20)
-
-whiteBall = MyBall(10, 100, 75)
-whiteBall.setVelocity(-6 * 1, -4 * 1)
-
-pingPong.setBall(whiteBall)
-
-pingPong.start(300)
-
-print("종료")
-pingPong.finish()
+#
+# pingPong = PingPong(400, 600, 20)
+#
+# redBall = MyBall(10, 100, 75)
+# redBall.setVelocity(-6 * 1, -4 * 1)
+#
+# pingPong.setBall(redBall)
+#
+# pingPong.start(300)
+#
+# print("종료")
+# pingPong.finish()
