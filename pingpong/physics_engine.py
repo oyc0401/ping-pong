@@ -40,6 +40,13 @@ class Board:
     structs = []
     walls = []
 
+    def __init__(self,width, height, thick):
+        self.addWall(Wall(thick, Direction.top))
+        self.addWall(Wall(height-thick, Direction.bottom))
+        self.addWall(Wall(thick, Direction.left))
+        self.addWall(Wall(width-thick, Direction.right))
+
+
     def addWall(self, wall):
         self.walls.append(wall)
 

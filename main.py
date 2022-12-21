@@ -1,16 +1,14 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from pingpong.pingpong_smooth_board import *
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+pingPong = PingPong(400, 600, 20)
 
+whiteBall = MyBall(10, 100, 75)
+whiteBall.setVelocity(-6 * 1, -4 * 1)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+pingPong.setBall(whiteBall)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+pingPong.start(300)
+
+print("종료")
+pingPong.finish()

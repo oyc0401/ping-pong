@@ -1,7 +1,7 @@
 import time
 
 from cs1graphics import *
-from mamama import *
+from vectors_math import *
 
 delay = 0.01  # 초당 20번
 collision_factor = 0.7
