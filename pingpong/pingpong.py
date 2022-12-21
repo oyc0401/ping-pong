@@ -1,46 +1,13 @@
 import time
 
 from cs1graphics import *
-
-import numpy as np
+from mamama import *
 
 delay = 0.01  # 초당 20번
 collision_factor = 0.7
 
 
-def inner(v1, v2):
-    return v1[0] * v2[0] + v1[1] * v2[1]
-
-
-def sum_tuple(v1, v2):
-    a, b = v1
-    A, B = v2
-
-    return (a + A, b + B)
-
-
-def multy_tuple(value, vector):
-    a, b = vector
-    a *= value
-    b *= value
-    return (a, b)
-
-
-def theta_to_bubson(theta):
-    # 세타로 단위법선벡터를 구한다
-    return (np.sin(theta), np.cos(theta))
-
-
-def theta_to_danwi(theta):
-    # 세타로 단위벡터를 구한다
-    return (np.cos(theta), np.sin(theta))
-
-def angle_to_theta(angle):
-    # 기울기를 세타로 바꿔준다
-    return np.arctan(angle)
-
-
-class myball(Circle):
+class MyBall(Circle):
     __VectorX = 3
     __VectorY = 5
     friction_factor = 0.005
@@ -114,14 +81,14 @@ setTable(400, 40, 200, 600)
 ##################################################
 
 nowAngle = 0
-wall = Rectangle(20,200, Point(200, 300))
+wall = Rectangle(20, 200, Point(200, 300))
 wall.setFillColor((71, 62, 58))
 wall.setBorderWidth(0)
 wall.rotate(45)
 canvas.add(wall)
 
 # 흰 공
-whiteBall = myball(10, Point(150, 550))
+whiteBall = MyBall(10, Point(150, 550))
 whiteBall.setFillColor('white')
 whiteBall.setBorderWidth(0)
 canvas.add(whiteBall)
@@ -129,11 +96,11 @@ canvas.add(whiteBall)
 r = 30
 whiteBall.setVelocity(-6, -4)
 
-tanacgle = (np.arctan(1/6) * 360 / (2 * np.pi))
-t=0
-isOut= True
+tanacgle = (np.arctan(1 / 6) * 360 / (2 * np.pi))
+t = 0
+isOut = True
 
-while (whiteBall.get_speed() > 0):
+while whiteBall.get_speed() > 0:
 
     whiteBall.go()
     xp = whiteBall.getReferencePoint().getX()
@@ -149,7 +116,7 @@ while (whiteBall.get_speed() > 0):
 
     nowAngle += 1
     wall.rotate(1)
-    #print(t)
+    # print(t)
 
     x1, y1 = get_location(nowAngle + 270 + 45 - tanacgle)
 
@@ -158,7 +125,6 @@ while (whiteBall.get_speed() > 0):
     x3, y3 = get_location(nowAngle + 90 + 45 - tanacgle)
 
     x4, y4 = get_location(nowAngle - 45 + tanacgle)
-
 
     D12 = (x2 - x1) * (yp - y1) - (xp - x1) * (y2 - y1)  # 1-2 번 왼쪽에 있으면 양수
 
@@ -194,10 +160,10 @@ while (whiteBall.get_speed() > 0):
             whiteBall.collision(theta_to_bubson((360 - 45 - nowAngle) * np.pi / 180))
 
         print("원 안이예요")
-        isOut=False
+        isOut = False
     else:
-        isOut=True
-    t+=1
+        isOut = True
+    t += 1
 
 print("종료")
 canvas.wait()
